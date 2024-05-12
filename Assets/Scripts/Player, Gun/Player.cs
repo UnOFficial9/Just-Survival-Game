@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     private Quaternion lastRot;
     public Transform info;
     private bool showInfo;
+    public FixedJoystick joy;
+    private bool jump;
     
     void Awake()
     {
@@ -34,6 +36,10 @@ public class Player : MonoBehaviour
         Sounds();
         Save();
         ShowInfo();
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+        }
     }
     private void FixedUpdate()
     {
@@ -43,16 +49,20 @@ public class Player : MonoBehaviour
     {
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical"); 
-        transform.Translate(new Vector3(h, 0 ,v) * speed * Time.deltaTime);
+        transform.Translate(new Vector3(h, 0 ,v) * speed * Time.deltaTime * boost);
+        transform.Translate(new Vector3(joy.Horizontal, 0, joy.Vertical)* speed * Time.deltaTime * boost);
     }
     private void Rotate()
     {
+        /*
         transform.localEulerAngles += new Vector3(0, speedRotation * Input.GetAxis("Mouse X"), 0);
         float angleX = camera.localEulerAngles.x;
         angleX -= speedRotation * Input.GetAxis("Mouse Y");
         if (angleX < 300 && angleX > 180) angleX = 300;
         else if (angleX > 60 && angleX < 180) angleX = 60;
         camera.localEulerAngles = new Vector3(angleX, 0, 0);
+        */
+        
     }
     private void Boost()
     {
@@ -67,14 +77,18 @@ public class Player : MonoBehaviour
     }
     private void OnCollisionStay(Collision collision)
     {
-        Jump();
+        jump = true;
     }
-    private void Jump() 
+    public void Jump() 
     {
-        if(Input.GetKey(KeyCode.Space)) 
+        if(jump)
         {
             rb.AddForce(new Vector3(0, jumpForce, 0), ForceMode.Impulse);
-        }
+        }   
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        jump = false;
     }
     public void PickUpSound()
     {
@@ -117,8 +131,8 @@ public class Player : MonoBehaviour
     }
     void Load()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
         rb = GetComponent<Rigidbody>();
         audioSource1.volume = PlayerPrefs.GetFloat("volume");
         audioSource2.volume = PlayerPrefs.GetFloat("volume");

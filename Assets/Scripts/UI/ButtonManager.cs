@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System.IO;
+
 public class ButtonManager : MonoBehaviour
 {
     public void Play()
@@ -31,7 +33,7 @@ public class ButtonManager : MonoBehaviour
     }
     public void Clear()
     {
-        PlayerPrefs.DeleteAll();
+        
     }
     public void Host()
     {
