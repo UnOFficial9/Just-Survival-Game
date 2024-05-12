@@ -1,1 +1,1 @@
-# Just Survival Game android
+# Just Survival Game for android
