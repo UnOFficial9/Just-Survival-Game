@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public Transform camera;
     public float speedRotation;
     public float speed;
-    private float boost;
+    private float boost = 1;
     private Rigidbody rb;
     public float jumpForce;
     public AudioSource audioSource1;
@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     {
         
         Rotate();
-        Boost();
+        
         Sounds();
         Save();
         ShowInfo();
@@ -64,9 +64,9 @@ public class Player : MonoBehaviour
         */
         
     }
-    private void Boost()
+    public void Boost(bool bost)
     {
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (bost)
         {
             boost = 2;
         }
