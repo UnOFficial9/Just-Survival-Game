@@ -1,19 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
-using System.IO;
+using UnityEngine.UI;
 
 public class ButtonManager : MonoBehaviour
 {
+    private Color colorOld;
+    public Color colorNew;
     public void Play()
     {
         SceneManager.LoadScene(1);
-    }
-    public void Settings()
-    {
-        SceneManager.LoadScene(2);
     }
     public void Quit()
     {
@@ -31,10 +27,7 @@ public class ButtonManager : MonoBehaviour
         gameObject.transform.parent.transform.parent.GetComponent<UIManager>().isPaused = false;
         gameObject.transform.parent.gameObject.SetActive(false);
     }
-    public void Clear()
-    {
-        
-    }
+    
     public void Host()
     {
         NetworkManager.Singleton.StartHost();
@@ -50,5 +43,14 @@ public class ButtonManager : MonoBehaviour
     public void LocalGame()
     {
         SceneManager.LoadScene(4);
+    }
+    public void SettingsSelect()
+    {
+        colorOld = GetComponent<Image>().color; 
+        GetComponent<Image>().color = colorNew;
+    }
+    public void DeselectSettings()
+    {
+        GetComponent<Image>().color = colorNew;
     }
 }
