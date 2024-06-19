@@ -7,6 +7,14 @@ public class ButtonManager : MonoBehaviour
 {
     private Color colorOld;
     public Color colorNew;
+    private bool setting;
+    private void Start()
+    {
+        if(transform.parent.gameObject.name == "Settings")
+        {
+            colorOld = GetComponent<Image>().color;
+        }
+    }
     public void Play()
     {
         SceneManager.LoadScene(1);
@@ -14,10 +22,6 @@ public class ButtonManager : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-    }
-    public void Back()
-    {
-        SceneManager.LoadScene(0);
     }
     public void BackToGame()
     {
@@ -51,6 +55,18 @@ public class ButtonManager : MonoBehaviour
     }
     public void DeselectSettings()
     {
-        GetComponent<Image>().color = colorNew;
+        GetComponent<Image>().color = colorOld;
+    }
+    public void Settings(GameObject menu)
+    {
+        setting = !setting;
+        if(setting)
+        {
+            menu.SetActive(true);
+        }
+        else
+        {
+            menu.SetActive(false);
+        }
     }
 }
